@@ -18,7 +18,7 @@ public class Part {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String category;
+    private Category category;
     private String art;
     private String brand;
     private Integer count;
