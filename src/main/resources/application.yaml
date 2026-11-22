@@ -1,3 +1,10 @@
 spring:
-  application:
-    name: Autoparts-warehouse
+  datasource:
+    url: jdbc:postgresql://localhost:5432/autoparts_warehouse
+    username: fonik
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
