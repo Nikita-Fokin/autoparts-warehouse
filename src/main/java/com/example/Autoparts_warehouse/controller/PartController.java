@@ -1,6 +1,5 @@
 package com.example.Autoparts_warehouse.controller;
 
-import com.example.Autoparts_warehouse.entity.Brand;
 import com.example.Autoparts_warehouse.entity.Part;
 import com.example.Autoparts_warehouse.service.PartService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,7 @@ import java.util.List;
 public class PartController {
     private final PartService partService;
 
-    @GetMapping("/all-parts")
+    @GetMapping()
     public List<Part> getAllParts() {
         return partService.getAllParts();
     }
@@ -26,12 +25,7 @@ public class PartController {
 
     @GetMapping("/by-brand")
     public List<Part> getPartByBrand(@RequestParam String brand) {
-        Brand brand1 = Brand.valueOf(brand.toUpperCase());
-        try {
-            return partService.getAllPartByBrand(brand1);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e);
-        }
+        return partService.getAllPartByBrand(brand);
     }
 
     @GetMapping("/by-art-containing")
@@ -43,5 +37,6 @@ public class PartController {
     public Part addPart(@RequestBody Part part) {
         return partService.addPart(part);
     }
-
 }
+
+

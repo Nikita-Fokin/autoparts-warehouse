@@ -13,8 +13,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PartService {
 
-    final PartRepository partRepository;
+    private final PartRepository partRepository;
 
+    @Transactional
     public Part addPart(Part part) {
         return partRepository.findByArt(part.getArt())
                 .map(existing -> {
@@ -39,8 +40,17 @@ public class PartService {
         return partRepository.findByArt(art).orElseThrow();
     }
 
-    public List<Part> getAllPartByBrand(Brand brand) {
-        return partRepository.findAllByBrand(brand);
+    public List<Part> getAllPartByBrand(String brand) {
+        if (brand == null || brand.isBlank()) {
+            throw new IllegalArgumentException("Brand must not be blank");
+        }
+
+        try {
+            Brand parsedBrand = Brand.valueOf(brand.strip().toUpperCase());
+            return partRepository.findAllByBrand(parsedBrand);
+        } catch (NullPointerException | IllegalArgumentException e) {
+            throw new IllegalArgumentException("Unknown brand: " + brand, e);
+        }
     }
 
     public List<Part> getAllPartsByArtIgnoreCase(String art) {
