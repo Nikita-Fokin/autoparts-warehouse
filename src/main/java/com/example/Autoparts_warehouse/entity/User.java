@@ -29,5 +29,5 @@ public class User {
     private Long id;
 
     @Min(0)
-    private Long discountPoints;
+    private Long discountPoints = 0L;
 }

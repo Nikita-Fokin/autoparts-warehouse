@@ -3,5 +3,8 @@ package com.example.Autoparts_warehouse.entity;
 public enum Brand {
     CTR,
     JUST_DRIVE,
-    LYNX;
+    LYNX,
+    MANN,
+    BOSCH,
+    NGK;
 }

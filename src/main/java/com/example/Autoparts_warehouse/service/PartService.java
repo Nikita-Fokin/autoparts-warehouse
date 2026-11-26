@@ -1,5 +1,6 @@
 package com.example.Autoparts_warehouse.service;
 
+import com.example.Autoparts_warehouse.entity.Brand;
 import com.example.Autoparts_warehouse.entity.Part;
 import com.example.Autoparts_warehouse.repository.PartRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,14 @@ public class PartService {
 
     public Part getByArt(String art) {
         return partRepository.findByArt(art).orElseThrow();
+    }
+
+    public List<Part> getAllPartByBrand(Brand brand) {
+        return partRepository.findAllByBrand(brand);
+    }
+
+    public List<Part> getAllPartsByArtIgnoreCase(String art) {
+        return partRepository.findAllByArtContainingIgnoreCase(art);
     }
 
     @Transactional
