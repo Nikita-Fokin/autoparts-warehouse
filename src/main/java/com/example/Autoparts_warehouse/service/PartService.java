@@ -1,6 +1,7 @@
 package com.example.Autoparts_warehouse.service;
 
 import com.example.Autoparts_warehouse.entity.Brand;
+import com.example.Autoparts_warehouse.entity.Category;
 import com.example.Autoparts_warehouse.entity.Part;
 import com.example.Autoparts_warehouse.repository.PartRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,11 +37,11 @@ public class PartService {
         return partRepository.findAll();
     }
 
-    public Part getByArt(String art) {
+    public Part getPartByArt(String art) {
         return partRepository.findByArt(art).orElseThrow();
     }
 
-    public List<Part> getAllPartByBrand(String brand) {
+    public List<Part> getAllPartsByBrand(String brand) {
         if (brand == null || brand.isBlank()) {
             throw new IllegalArgumentException("Brand must not be blank");
         }
@@ -55,6 +56,19 @@ public class PartService {
 
     public List<Part> getAllPartsByArtIgnoreCase(String art) {
         return partRepository.findAllByArtContainingIgnoreCase(art);
+    }
+
+    public List<Part> getAllPartsByCategory(String cat) {
+        if (cat == null || cat.isBlank()) {
+            throw new IllegalArgumentException("Category must not be blank");
+        }
+
+        try {
+            Category category = Category.valueOf(cat.strip().toUpperCase());
+            return partRepository.findAllByCategory(category);
+        } catch (NullPointerException | IllegalArgumentException e) {
+            throw new IllegalArgumentException("Unknown category: " + cat, e);
+        }
     }
 
     @Transactional

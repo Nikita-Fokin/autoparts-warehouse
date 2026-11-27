@@ -20,16 +20,21 @@ public class PartController {
 
     @GetMapping("/by-art")
     public Part getPartByArt(@RequestParam String art) {
-        return partService.getByArt(art);
+        return partService.getPartByArt(art);
     }
 
     @GetMapping("/by-brand")
-    public List<Part> getPartByBrand(@RequestParam String brand) {
-        return partService.getAllPartByBrand(brand);
+    public List<Part> getAllPartsByBrand(@RequestParam String brand) {
+        return partService.getAllPartsByBrand(brand);
+    }
+
+    @GetMapping("/by-category")
+    public List<Part> getAllPartsByCategory(@RequestParam String category) {
+        return partService.getAllPartsByCategory(category);
     }
 
     @GetMapping("/by-art-containing")
-    public List<Part> getAllPartByArt(@RequestParam String art) {
+    public List<Part> getAllPartsByArt(@RequestParam String art) {
         return partService.getAllPartsByArtIgnoreCase(art);
     }
 

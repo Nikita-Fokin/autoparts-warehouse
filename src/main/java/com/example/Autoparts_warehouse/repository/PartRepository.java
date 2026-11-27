@@ -1,6 +1,7 @@
 package com.example.Autoparts_warehouse.repository;
 
 import com.example.Autoparts_warehouse.entity.Brand;
+import com.example.Autoparts_warehouse.entity.Category;
 import com.example.Autoparts_warehouse.entity.Part;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,4 +12,5 @@ public interface PartRepository extends JpaRepository<Part, Long> {
     Optional<Part> findByArt(String art);
     List<Part> findAllByArtContainingIgnoreCase(String art);
     List<Part> findAllByBrand(Brand brand);
+    List<Part> findAllByCategory(Category category);
 }
