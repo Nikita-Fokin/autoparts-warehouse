@@ -2,6 +2,7 @@ package com.example.Autoparts_warehouse.controller;
 
 import com.example.Autoparts_warehouse.entity.Part;
 import com.example.Autoparts_warehouse.service.PartService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +40,7 @@ public class PartController {
     }
 
     @PostMapping
-    public Part addPart(@RequestBody Part part) {
+    public Part addPart(@Valid @RequestBody Part part) {
         return partService.addPart(part);
     }
 }

@@ -18,12 +18,16 @@ public class PartService {
 
     @Transactional
     public Part addPart(Part part) {
+        if (part.getCount() != null && part.getCount() < 0) {
+            throw new IllegalArgumentException("Count must not be negative");
+        }
+
         return partRepository.findByArt(part.getArt())
                 .map(existing -> {
                     int added = part.getCount() != null ? part.getCount() : 1;
                     int current = existing.getCount() != null ? existing.getCount() : 0;
                     existing.setCount(current + added);
-                    return partRepository.save(existing);
+                    return existing;
                 })
                 .orElseGet(() -> {
                     if (part.getCount() == null) {
