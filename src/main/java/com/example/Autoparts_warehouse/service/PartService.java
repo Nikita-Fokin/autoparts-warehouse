@@ -42,16 +42,8 @@ public class PartService {
     }
 
     public List<Part> getAllPartsByBrand(String brand) {
-        if (brand == null || brand.isBlank()) {
-            throw new IllegalArgumentException("Brand must not be blank");
-        }
-
-        try {
-            Brand parsedBrand = Brand.valueOf(brand.strip().toUpperCase());
-            return partRepository.findAllByBrand(parsedBrand);
-        } catch (NullPointerException | IllegalArgumentException e) {
-            throw new IllegalArgumentException("Unknown brand: " + brand, e);
-        }
+        Brand parsedBrand = parseEnum(Brand.class, brand, "brand");
+        return partRepository.findAllByBrand(parsedBrand);
     }
 
     public List<Part> getAllPartsByArtIgnoreCase(String art) {
@@ -59,16 +51,8 @@ public class PartService {
     }
 
     public List<Part> getAllPartsByCategory(String cat) {
-        if (cat == null || cat.isBlank()) {
-            throw new IllegalArgumentException("Category must not be blank");
-        }
-
-        try {
-            Category category = Category.valueOf(cat.strip().toUpperCase());
-            return partRepository.findAllByCategory(category);
-        } catch (NullPointerException | IllegalArgumentException e) {
-            throw new IllegalArgumentException("Unknown category: " + cat, e);
-        }
+        Category parsedCat = parseEnum(Category.class, cat, "category");
+        return partRepository.findAllByCategory(parsedCat);
     }
 
     @Transactional
@@ -76,5 +60,17 @@ public class PartService {
         Part part = partRepository.findById(id).orElseThrow();
         part.setCount(count);
         return part;
+    }
+
+    private <E extends Enum<E>> E parseEnum(Class<E> enumType, String rawValue, String fieldName) {
+        if(rawValue == null || rawValue.isBlank()) {
+            throw new IllegalArgumentException("Parameter " + fieldName + " must not be blank");
+        }
+
+        try {
+            return Enum.valueOf(enumType, rawValue.strip().toUpperCase());
+        } catch (IllegalArgumentException | NullPointerException e) {
+            throw new IllegalArgumentException("Unknown " + fieldName + ": " + rawValue, e);
+        }
     }
 }
